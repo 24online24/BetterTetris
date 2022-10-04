@@ -37,6 +37,7 @@ class Coordinates {
 document.addEventListener('DOMContentLoaded', SetupCanvas);
 
 function CreateCoordinateArray() {
+    let xR = 0, yR = 19;
     let i = 0, j = 0;
     for (let y = 9; y <= 446; y += 23) {
         for (let x = 11; x <= 264; x += 23) {
@@ -64,7 +65,7 @@ function SetupCanvas() {
 
     // tetrisLogo = new Image(161, 54);
     // tetrisLogo.onload = DrawTetrisLogo;
-    // tetrisLogo.src = 'tetrislogo.png'; 
+    // tetrisLogo.src = 'tetrislogo.png';
 
     ctx.fillStyle = 'white';
     ctx.font = '21px Arial';
