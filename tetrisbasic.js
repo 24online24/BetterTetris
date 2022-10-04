@@ -87,7 +87,7 @@ function SetupCanvas() {
     ctx.fillText('A: Move Left', 310, 388);
     ctx.fillText('D: Move Right', 310, 413);
     ctx.fillText('S: Move Down', 310, 438);
-    ctx.fillText('E: Rotate', 310, 463);
+    ctx.fillText('W: Rotate', 310, 463);
 
     document.addEventListener('keydown', HandleKeyPress);
     CreateTetrominos();
@@ -115,23 +115,23 @@ function DrawTetromino() {
 
 function HandleKeyPress(key) {
     if (winOrLose != 'Game Over') {
-        if (key.keyCode === 65) {
+        if (key.keyCode === 'A'.charCodeAt(0)) {
             direction = DIRECTION.LEFT;
             if (!HittingTheWall() && !CheckForHorizontalCollision()) {
                 DeleteTetromino();
                 startX--;
                 DrawTetromino();
             }
-        } else if (key.keyCode === 68) {
+        } else if (key.keyCode === 'D'.charCodeAt(0)) {
             direction = DIRECTION.RIGHT;
             if (!HittingTheWall() && !CheckForHorizontalCollision()) {
                 DeleteTetromino();
                 startX++;
                 DrawTetromino();
             }
-        } else if (key.keyCode === 83) {
+        } else if (key.keyCode === 'S'.charCodeAt(0)) {
             MoveTetrominoDown();
-        } else if (key.keyCode === 69) {
+        } else if (key.keyCode === 'W'.charCodeAt(0)) {
             RotateTetromino();
         }
     }
@@ -222,7 +222,7 @@ function CheckForVerticalCollision() {
         }
     }
     if (collision) {
-        if (startY <= 1) {
+        if (startY <= 2) {
             winOrLose = 'Game Over';
             ctx.fillStyle = 'black';
             ctx.fillRect(310, 242, 140, 30);
