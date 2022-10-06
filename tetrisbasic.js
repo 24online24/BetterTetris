@@ -68,10 +68,9 @@ function SetupCanvas() {
 
     ctx.fillStyle = 'white';
     ctx.font = '21px Arial';
+    
     ctx.fillText('SCORE', 300, 98);
-
     ctx.strokeRect(300, 107, 161, 24);
-
     ctx.fillText(score.toString(), 310, 127);
 
     ctx.fillText('LEVEL', 300, 157);
@@ -79,8 +78,9 @@ function SetupCanvas() {
     ctx.fillText(level.toString(), 310, 190);
 
     ctx.fillText('WIN/ LOSE', 300, 221);
-    ctx.fillText(winOrLose, 310, 261);
     ctx.strokeRect(300, 232, 161, 95);
+    ctx.fillText(winOrLose, 310, 261);
+
     ctx.fillText('CONTROLS', 300, 354);
     ctx.strokeRect(300, 366, 161, 104);
     ctx.font = '19px Arial';
