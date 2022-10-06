@@ -17,8 +17,14 @@ let tetrominoColors = ['purple', 'cyan', 'blue', 'yellow', 'orange', 'green', 'r
 let currentTetrominoColor;
 
 let gameBoardArray = [...Array(gBArrayHeight)].map(e => Array(gBArrayWidth).fill(0));
-
 let stoppedShapeArray = [...Array(gBArrayHeight)].map(e => Array(gBArrayWidth).fill(0));
+
+let pointsForLines =  {
+    1: 40,
+    2: 100,
+    3: 300,
+    4: 1200,
+};
 
 let DIRECTION = {
     IDLE: 0,
@@ -69,14 +75,18 @@ function SetupCanvas() {
 
     ctx.fillStyle = 'white';
     ctx.font = '21px Arial';
-    
-    ctx.fillText('SCORE', 300, 98);
-    ctx.strokeRect(300, 107, 161, 24);
-    ctx.fillText(score.toString(), 310, 127);
 
-    ctx.fillText('LINES', 300, 157);
-    ctx.strokeRect(300, 171, 161, 24);
-    ctx.fillText(lines.toString(), 310, 190);
+    ctx.fillText('SCORE', 300, 39);
+    ctx.strokeRect(300, 47, 161, 24);
+    ctx.fillText(score.toString(), 310, 67);
+
+    ctx.fillText('LEVEL', 300, 100);
+    ctx.strokeRect(300, 108, 161, 24);
+    ctx.fillText(level.toString(), 310, 128);
+
+    ctx.fillText('LINES', 300, 161);
+    ctx.strokeRect(300, 169, 161, 24);
+    ctx.fillText(lines.toString(), 310, 189);
 
     ctx.fillText('WIN/ LOSE', 300, 221);
     ctx.strokeRect(300, 232, 161, 95);
@@ -295,13 +305,26 @@ function CheckForCompletedRows() {
         }
     }
     if (rowsToDelete > 0) {
-        score += 10;
+        score += (level + 1) * pointsForLines(rowsToDelete);
         ctx.fillStyle = 'black';
-        ctx.fillRect(310, 109, 140, 19);
+        ctx.fillRect(310, 49, 140, 19);
         ctx.fillStyle = 'white';
-        ctx.fillText(score.toString(), 310, 127);
+        ctx.fillText(score.toString(), 310, 67);
 
         lines++;
+        ctx.fillStyle = 'black';
+        ctx.fillRect(310, 171, 140, 19);
+        ctx.fillStyle = 'white';
+        ctx.fillText(lines.toString(), 310, 189);
+
+
+        if (lines % 10 == 0) {
+            level++;
+            ctx.fillStyle = 'black';
+            ctx.fillRect(310, 110, 140, 19);
+            ctx.fillStyle = 'white';
+            ctx.fillText(level.toString(), 310, 128);
+        }
         MoveAllRowsDown(rowsToDelete, startOfDeletion);
     }
 }
