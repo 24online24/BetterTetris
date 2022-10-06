@@ -6,6 +6,7 @@ let startX = 4;
 let startY = 0;
 let score = 0;
 let level = 1;
+let lines = 0;
 let winOrLose = 'Playing';
 // let tetrisLogo;
 let coordinateArray = [...Array(gBArrayHeight)].map(e => Array(gBArrayWidth).fill(0));
@@ -73,9 +74,9 @@ function SetupCanvas() {
     ctx.strokeRect(300, 107, 161, 24);
     ctx.fillText(score.toString(), 310, 127);
 
-    ctx.fillText('LEVEL', 300, 157);
+    ctx.fillText('LINES', 300, 157);
     ctx.strokeRect(300, 171, 161, 24);
-    ctx.fillText(level.toString(), 310, 190);
+    ctx.fillText(lines.toString(), 310, 190);
 
     ctx.fillText('WIN/ LOSE', 300, 221);
     ctx.strokeRect(300, 232, 161, 95);
@@ -299,6 +300,8 @@ function CheckForCompletedRows() {
         ctx.fillRect(310, 109, 140, 19);
         ctx.fillStyle = 'white';
         ctx.fillText(score.toString(), 310, 127);
+
+        lines++;
         MoveAllRowsDown(rowsToDelete, startOfDeletion);
     }
 }
