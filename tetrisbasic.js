@@ -5,7 +5,7 @@ let gBArrayWidth = 12;
 let startX = 4;
 let startY = 0;
 let score = 0;
-let level = 1;
+let level = 0;
 let lines = 0;
 let winOrLose = 'Playing';
 // let tetrisLogo;
@@ -19,7 +19,7 @@ let currentTetrominoColor;
 let gameBoardArray = [...Array(gBArrayHeight)].map(e => Array(gBArrayWidth).fill(0));
 let stoppedShapeArray = [...Array(gBArrayHeight)].map(e => Array(gBArrayWidth).fill(0));
 
-let pointsForLines =  {
+let pointsForLines = {
     1: 40,
     2: 100,
     3: 300,
@@ -125,26 +125,39 @@ function DrawTetromino() {
 }
 
 function HandleKeyPress(key) {
+    // console.log(key.keyCode);
     if (winOrLose != 'Game Over') {
-        if (key.keyCode === 'A'.charCodeAt(0)) {
+        if (key.keyCode === 37) {
             direction = DIRECTION.LEFT;
             if (!HittingTheWall() && !CheckForHorizontalCollision()) {
                 DeleteTetromino();
                 startX--;
                 DrawTetromino();
             }
-        } else if (key.keyCode === 'D'.charCodeAt(0)) {
+        } else if (key.keyCode === 39) {
             direction = DIRECTION.RIGHT;
             if (!HittingTheWall() && !CheckForHorizontalCollision()) {
                 DeleteTetromino();
                 startX++;
                 DrawTetromino();
             }
-        } else if (key.keyCode === 'S'.charCodeAt(0)) {
+        } else if (key.keyCode === 40) {
             MoveTetrominoDown();
-        } else if (key.keyCode === 'W'.charCodeAt(0)) {
+        } else if (key.keyCode === 38) { // Up Arrow
             RotateTetromino();
+        } else if (key.keyCode === 32) { // Space
+                HardDrop();
         }
+    }
+}
+
+function HardDrop() {
+    direction = DIRECTION.DOWN;
+    while (!CheckForVerticalCollision()) {
+        console.log(startY ,'Dropping!');
+        DeleteTetromino();
+        startY++;
+        DrawTetromino();
     }
 }
 
@@ -160,6 +173,7 @@ function MoveTetrominoDown() {
 window.setInterval(function () {
     if (winOrLose != 'Game Over') {
         MoveTetrominoDown();
+        console.log(startY);
     }
 }, 1000);
 
@@ -305,26 +319,24 @@ function CheckForCompletedRows() {
         }
     }
     if (rowsToDelete > 0) {
-        score += (level + 1) * pointsForLines(rowsToDelete);
+        score += (level + 1) * pointsForLines[rowsToDelete];
         ctx.fillStyle = 'black';
         ctx.fillRect(310, 49, 140, 19);
         ctx.fillStyle = 'white';
         ctx.fillText(score.toString(), 310, 67);
 
-        lines++;
+        lines += rowsToDelete;
         ctx.fillStyle = 'black';
         ctx.fillRect(310, 171, 140, 19);
         ctx.fillStyle = 'white';
         ctx.fillText(lines.toString(), 310, 189);
 
+        level = Math.floor(lines / 10);
+        ctx.fillStyle = 'black';
+        ctx.fillRect(310, 110, 140, 19);
+        ctx.fillStyle = 'white';
+        ctx.fillText(level.toString(), 310, 128);
 
-        if (lines % 10 == 0) {
-            level++;
-            ctx.fillStyle = 'black';
-            ctx.fillRect(310, 110, 140, 19);
-            ctx.fillStyle = 'white';
-            ctx.fillText(level.toString(), 310, 128);
-        }
         MoveAllRowsDown(rowsToDelete, startOfDeletion);
     }
 }
